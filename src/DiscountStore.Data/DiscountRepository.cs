@@ -5,8 +5,6 @@ namespace DiscountStore.Data
 {
     public class DiscountRepository : IRepository<Discount>
     {
-        //public IEnumerable<Discount> DbSet { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
         public IEnumerable<Discount> GetAll()
         {
             return new List<Discount>

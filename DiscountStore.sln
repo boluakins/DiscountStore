@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscountStore.Core", "src\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscountStore.Data", "src\DiscountStore.Data\DiscountStore.Data.csproj", "{BD643127-EB56-4443-8FE3-95EAF8C837BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountStore.UI", "src\DiscountStore.UI\DiscountStore.UI.csproj", "{646EC0BC-8B3B-4BF9-A224-C218E0B4E5D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscountStore.UI", "src\DiscountStore.UI\DiscountStore.UI.csproj", "{646EC0BC-8B3B-4BF9-A224-C218E0B4E5D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscountStore.Models", "src\DiscountStore.Models\DiscountStore.Models.csproj", "{D64DAA0B-0A5D-4B17-BF77-715706D0C1F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscountStore.Models", "src\DiscountStore.Models\DiscountStore.Models.csproj", "{D64DAA0B-0A5D-4B17-BF77-715706D0C1F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
