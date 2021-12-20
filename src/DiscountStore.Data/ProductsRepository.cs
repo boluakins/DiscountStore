@@ -10,7 +10,7 @@ namespace DiscountStore.Data
             return new List<Product>
             {
                 new Product("Vase", (decimal)1.20),
-                new Product("Big Mug", (decimal)1.0),
+                new Product("Big Mug", (decimal)1.00),
                 new Product("Napkins Pack", (decimal)0.45),
             };
         }

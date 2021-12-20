@@ -5,59 +5,68 @@ using System.Collections.Generic;
 
 namespace DiscountStore.Core
 {
-    public class CartService
+    public class CartService : ICartService
     {
-        private Dictionary<string, CartItem> cart;
+        private Dictionary<string, CartItem> _cart;
+
         public CartService()
         {
-            cart = new Dictionary<string, CartItem>();
+            _cart = new Dictionary<string, CartItem>();
         }
         public void AddItem(Product product)
         {
             int DEFAULTQUANTITY = 1;
             var cartItem = new CartItem(product.SKU, DEFAULTQUANTITY, product.Price);
-            if (!cart.ContainsKey(cartItem.SKU))
+            if (_cart.ContainsKey(cartItem.SKU))
             {
-                cart.Add(cartItem.SKU, cartItem);
+                _cart[cartItem.SKU].Quantity++;
+                return;
             }
-            cart[product.SKU].Quantity++;
+            _cart.Add(cartItem.SKU, cartItem);
         }
 
-        public void RemoveItem(Product product)
+        public void RemoveItem(CartItem cartItem)
         {
-            if (!cart.ContainsKey(product.SKU))
+            if (!_cart.ContainsKey(cartItem.SKU))
             {
                 return;
             }
-            if (cart[product.SKU].Quantity > 0)
+            if (_cart[cartItem.SKU].Quantity > 0)
             {
-                cart[product.SKU].Quantity--;
+                _cart[cartItem.SKU].Quantity--;
+                if (_cart[cartItem.SKU].Quantity < 1)
+                {
+                    _cart.Remove(cartItem.SKU);
+                }
             }
         }
 
         public Dictionary<string, CartItem> ReviewCart()
         {
-            return cart;
-
+            return _cart;
         }
         public void EmptyCart()
         {
-            cart.Clear();
+            _cart.Clear();
         }
 
         public decimal GetTotal()
         {
-            var discounts = new DiscountRepository().GetAll().ToDiscountDictionary();
             decimal total = 0;
-            foreach (var item in cart)
+            if (_cart.Count < 1)
+            {
+                return total;
+            }
+            var discounts = new DiscountRepository().GetAll().ToDiscountDictionary();
+            foreach (var item in _cart)
             {
                 if (discounts.ContainsKey(item.Key) && discounts[item.Key].Quantity <= item.Value.Quantity)
                 {
                     total += Utils.ApplyDiscount(discounts[item.Key], item.Value);
+                    continue;
                 }
                 total += item.Value.Quantity * item.Value.ProductPrice;
             }
-
             return total;
         }
     }

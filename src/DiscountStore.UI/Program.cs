@@ -1,64 +1,39 @@
 ﻿using DiscountStore.Core;
 using DiscountStore.Data;
 using DiscountStore.Models;
+using DiscountStore.UI.Pages;
+using DiscountStore.UI.Pages.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
-using System.Linq;
 
 namespace DiscountStore.UI
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-            Init();
+            using var host = CreateHostBuilder(args).Build();
+            using var serviceScope = host.Services.CreateScope();
+            var provider = serviceScope.ServiceProvider;
+            Init.Run(provider);
         }
 
-        static void Init()
+        private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            var processor = new Processor();
-            Console.WriteLine("Welcome");
-            Console.WriteLine("");
-            Console.WriteLine("Select an option:");
-            Console.WriteLine("");
-            Console.WriteLine("1: view products");
-            Console.WriteLine("2: view cart");
-            Console.WriteLine("3: add product to cart");
-            Console.WriteLine("99: exit");
-            Console.WriteLine();
-            var option = Console.ReadLine();
-            bool validResponse = false;
-            while (!validResponse) 
-            {
-                switch (option)
-                {
-                    case "1":
-
-                    default:
-                        break;
-                }
-            }
-
-
-
-                processor.CartService.AddItem(processor.Products.First());
-            processor.CartService.AddItem(processor.Products.Last());
-            processor.CartService.AddItem(processor.Products.First());
-
-
-        }
-
-        static void SelectOption(string option)
-        {
-
-        }
-        static void ReviewCart()
-        {
-            var cartService = new CartService();
-            var cart = cartService.ReviewCart();
-            foreach (var item in cart)
-            {
-                Console.WriteLine($"{item.Key} : {item.Value.ProductPrice} : {item.Value.Quantity}");
-            }
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices((_, services) =>
+                    services
+                    .AddSingleton<IMainPage, MainPage>()
+                    .AddSingleton<IViewCart, ViewCart>()
+                    .AddSingleton<IAddToCart, AddToCart>()
+                    .AddSingleton<IRemoveFromCart, RemoveFromCart>()
+                    .AddSingleton<ICheckout, Checkout>()
+                    .AddSingleton<IRepository<Discount>, DiscountRepository>()
+                    .AddSingleton<IRepository<Product>, ProductsRepository>()
+                    .AddSingleton<ICartService, CartService>()
+                    .AddSingleton<IClearCart, ClearCart>()
+                    );
         }
     }
 }
